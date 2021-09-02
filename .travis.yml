@@ -1,0 +1,24 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t jstanley1730/client-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true jstanley1730/client-test npm test
+
+after_success:
+  - docker build -t jstanley1730/multi-client ./client
+  - docker build -t jstanley1730/multi-nginx ./nginx
+  - docker build -t jstanley1730/multi-server ./server
+  - docker build -t jstanley1730/multi-worker ./worker
+  
+  # LOGIN to docker cli
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  # Publish to docker hub
+  - docker push multi-client
+  - docker push multi-nginx
+  - docker push multi-server
+  - docker push multi-worker
+  
