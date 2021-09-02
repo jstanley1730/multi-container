@@ -17,8 +17,8 @@ after_success:
   # LOGIN to docker cli
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   # Publish to docker hub
-  - docker push multi-client
-  - docker push multi-nginx
-  - docker push multi-server
-  - docker push multi-worker
+  - docker push jstanley1730/multi-client
+  - docker push jstanley1730/multi-nginx
+  - docker push jstanley1730/multi-server
+  - docker push jstanley1730/multi-worker
   
